@@ -10,7 +10,7 @@ const state = {
   filteredJobs: [],
   savedJobIds: new Set(JSON.parse(localStorage.getItem('radarfish_saved') || '[]')),
   appliedJobIds: new Set(JSON.parse(localStorage.getItem('radarfish_applied') || '[]')),
-  keywords: ['Python', 'React', 'TypeScript', 'Docker', 'Go'],
+  keywords: ['Figma', 'UI/UX', 'Wireframing', 'Prototyping', 'Design Systems', 'User Research'],
   activeTab: 'all', // 'all' | 'saved' | 'applied'
   workMode: 'all',
   autoRefreshTimer: null,
@@ -229,8 +229,8 @@ function setupEventListeners() {
   document.getElementById('btnResetFilters')?.addEventListener('click', () => {
     elements.rangeMinScore.value = 0;
     elements.lblMinScore.textContent = '0%';
-    elements.inputRole.value = 'Software Engineer Intern';
-    elements.inputLocation.value = '';
+    elements.inputRole.value = 'UI/UX Designer';
+    elements.inputLocation.value = 'Delhi, India';
     elements.selectPortal.value = 'all';
     elements.selectSeniority.value = 'all';
     filterAndRenderJobs();

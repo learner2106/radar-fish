@@ -61,8 +61,8 @@ app.post('/api/test-key', async (req, res) => {
 app.post('/api/scrape', async (req, res) => {
   try {
     const {
-      role = 'Software Engineer Intern',
-      location = '',
+      role = 'UI/UX Designer',
+      location = 'Delhi, India',
       keywords = [],
       seniority = 'all',
       workMode = 'all',
