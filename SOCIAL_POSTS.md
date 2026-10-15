@@ -26,7 +26,7 @@ RadarFish integrates all 3 core TinyFish endpoints into a unified 3-stage agenti
 
 Massive thanks to TinyFish and Team TechnoJam for hosting such an insightful workshop on agentic web automation!
 
-Check out the demo and code on GitHub: [Link to your repo]
+Check out the demo and code on GitHub: https://github.com/learner2106/radar-fish
 
 #AIThatClicks #TinyFish #WebScraping #JobScraper #TechnoJam #GalgotiasUniversity #BuildInPublic #AI #AgenticAI #Careers #Internships
 ```
@@ -52,7 +52,7 @@ Key features:
 
 Clean results. Real links. Less time refreshing. 🚀
 
-Check it out: [Link to your repo]
+Check it out: https://github.com/learner2106/radar-fish
 
 #AIThatClicks #TinyFish #JobRadar #TechnoJam #WebScraping
 ```
