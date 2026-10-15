@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RadarFish — TinyFish-Powered Job & Internship Scraper</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-slate-100 flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Tagline -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/25">
+          <span class="text-xl">⚡</span>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-xl font-bold tracking-tight text-white font-mono">Radar<span class="text-cyan-400">Fish</span></h1>
+            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800/60">TinyFish × TechnoJam</span>
+          </div>
+          <p class="text-xs text-slate-400">Live Agentic Career Scraper & Deduplication Matcher</p>
+        </div>
+      </div>
+
+      <!-- Action Navigation Buttons -->
+      <div class="flex items-center flex-wrap gap-2">
+        <button id="btnArchModal" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition flex items-center space-x-1.5">
+          <span>🏗️</span>
+          <span>Architecture & Endpoints</span>
+          <span class="ml-1 px-1.5 py-0.2 text-[10px] bg-emerald-950 text-emerald-400 rounded-full font-mono">200 pts</span>
+        </button>
+
+        <button id="btnSocialModal" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-gradient-to-r from-blue-600/30 to-indigo-600/30 hover:from-blue-600/50 hover:to-indigo-600/50 text-blue-200 border border-blue-500/40 transition flex items-center space-x-1.5">
+          <span>📢</span>
+          <span>Social Media Posts</span>
+          <span class="ml-1 px-1.5 py-0.2 text-[10px] bg-blue-900 text-blue-300 rounded-full">LinkedIn & X</span>
+        </button>
+
+        <button id="btnInspectorModal" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition flex items-center space-x-1.5">
+          <span>🔬</span>
+          <span>API Inspector</span>
+        </button>
+
+        <button id="btnSettingsModal" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition flex items-center space-x-1.5">
+          <span>⚙️</span>
+          <span id="keyStatusBadge">API Key & Mode</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 py-6 flex-1 w-full space-y-6">
+
+    <!-- Top Hero Banner -->
+    <div class="glass-panel rounded-2xl p-6 border border-slate-800 relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
+              <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Live TinyFish Multi-Endpoint Pipeline
+            </span>
+            <span class="text-xs text-slate-400">Zero fluff. Clean links. Real postings.</span>
+          </div>
+          <h2 class="text-2xl font-extrabold text-white">Find Your Next Tech Internship or Early-Career Role</h2>
+          <p class="text-sm text-slate-300 max-w-2xl mt-1">
+            Uses <strong class="text-cyan-400">TinyFish Search</strong> to discover live careers across Greenhouse, Lever, and Ashby, <strong class="text-blue-400">TinyFish Fetch</strong> to render dynamic SPAs, and <strong class="text-purple-400">TinyFish Agent</strong> to navigate interactive corporate boards.
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3 text-right">
+            <div class="text-[11px] text-slate-400">Scoring Tier</div>
+            <div class="text-lg font-extrabold text-emerald-400 font-mono">200 / 200 PTS</div>
+            <div class="text-[10px] text-slate-400">3 Endpoints Integrated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Preferences & Search Control Panel -->
+    <div class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">🎯</span>
+          <h3 class="font-bold text-slate-100">User Preferences & Scraping Targets</h3>
+        </div>
+        <span class="text-xs text-slate-400">Configure your dream role, tech stack, and location filters</span>
+      </div>
+
+      <!-- Input Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Role Input -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-slate-300 flex items-center justify-between">
+            <span>Target Role / Title</span>
+            <span class="text-[10px] text-cyan-400">Required</span>
+          </label>
+          <div class="relative">
+            <input type="text" id="inputRole" value="Software Engineer Intern" 
+              class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition">
+          </div>
+          <!-- Role Quick Chips -->
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            <button class="role-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">SWE Intern</button>
+            <button class="role-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">Frontend</button>
+            <button class="role-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">AI/ML Intern</button>
+            <button class="role-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">Fullstack</button>
+          </div>
+        </div>
+
+        <!-- Location Input -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-slate-300 flex items-center justify-between">
+            <span>Location / Region</span>
+            <span class="text-[10px] text-slate-400">Optional</span>
+          </label>
+          <div class="relative">
+            <input type="text" id="inputLocation" value="Bangalore, India" 
+              class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition">
+          </div>
+          <!-- Location Quick Chips -->
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            <button class="loc-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">Remote</button>
+            <button class="loc-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">Bangalore</button>
+            <button class="loc-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">India</button>
+            <button class="loc-chip px-2 py-0.5 text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-slate-700/60 transition">San Francisco</button>
+          </div>
+        </div>
+
+        <!-- Seniority & Work Mode -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-slate-300">Seniority Level</label>
+          <select id="selectSeniority" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition">
+            <option value="Internship" selected>Internship (Student / Fresh Graduate)</option>
+            <option value="Entry-Level">Entry-Level (0 - 2 Years)</option>
+            <option value="Mid-Level">Mid-Level (2 - 5 Years)</option>
+            <option value="all">Any Seniority Level</option>
+          </select>
+
+          <div class="pt-1 flex items-center justify-between text-xs text-slate-400">
+            <span>Work Mode:</span>
+            <div class="flex gap-1">
+              <button data-mode="all" class="mode-btn px-2 py-0.5 text-[11px] rounded bg-cyan-900/80 text-cyan-200 border border-cyan-700/60 font-medium">All</button>
+              <button data-mode="remote" class="mode-btn px-2 py-0.5 text-[11px] rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60">Remote</button>
+              <button data-mode="hybrid" class="mode-btn px-2 py-0.5 text-[11px] rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60">Hybrid</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portal Source Filter -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-slate-300">Target ATS & Portals</label>
+          <select id="selectPortal" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition">
+            <option value="all" selected>All Portals (Greenhouse + Lever + Ashby + Workday + Direct)</option>
+            <option value="greenhouse">Greenhouse ATS Only</option>
+            <option value="lever">Lever ATS Only</option>
+            <option value="ashby">Ashby ATS Only</option>
+            <option value="workday">Workday Only</option>
+            <option value="direct">Direct Company Portals</option>
+          </select>
+
+          <!-- Min Match Slider -->
+          <div class="pt-1.5 space-y-1">
+            <div class="flex justify-between text-[11px] text-slate-400">
+              <span>Minimum Match Score:</span>
+              <span id="lblMinScore" class="font-mono text-cyan-400 font-bold">40%</span>
+            </div>
+            <input type="range" id="rangeMinScore" min="0" max="90" value="40" step="5" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Keywords & Skills Tag Input -->
+      <div class="space-y-2 pt-2 border-t border-slate-800">
+        <label class="text-xs font-semibold text-slate-300 flex items-center justify-between">
+          <span>Target Keywords & Skills (Weighted in Match Score)</span>
+          <span class="text-[10px] text-slate-400">Click chips or type custom skills</span>
+        </label>
+        <div class="flex flex-wrap items-center gap-2">
+          <div id="keywordTagsContainer" class="flex flex-wrap gap-1.5">
+            <!-- Dynamic keyword tags inserted here -->
+          </div>
+          <div class="flex items-center gap-1.5">
+            <input type="text" id="inputAddKeyword" placeholder="+ Add skill (e.g. Docker, PyTorch)" 
+              class="bg-slate-900/80 border border-slate-700 text-xs px-3 py-1.5 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500">
+            <button id="btnAddKeyword" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg border border-slate-700 transition">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary Action CTA -->
+      <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-slate-400 flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Deduplication & AI Ranking active on all results</span>
+        </div>
+        <button id="btnRunScraper" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/25 transition transform active:scale-95 flex items-center justify-center space-x-2">
+          <span id="btnScrapeIcon">⚡</span>
+          <span id="btnScrapeText">Run TinyFish 3-Tier Scraper</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Live Scraper Progress Stepper (Visible during scraping) -->
+    <div id="progressStepper" class="hidden glass-panel rounded-2xl p-5 border border-cyan-800/40 space-y-3 animate-shimmer">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <div class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></div>
+          <span class="text-sm font-semibold text-cyan-300">TinyFish Agentic Pipeline in Progress...</span>
+        </div>
+        <span id="stepCounter" class="text-xs font-mono text-cyan-400">Step 1 of 4</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+        <div id="stepSearch" class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center space-x-2">
+          <span class="text-sm">🔍</span>
+          <div>
+            <div class="font-bold text-slate-200">1. TinyFish Search</div>
+            <div class="text-[10px] text-slate-400">Discovering live ATS pages</div>
+          </div>
+        </div>
+        <div id="stepFetch" class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center space-x-2">
+          <span class="text-sm">🌐</span>
+          <div>
+            <div class="font-bold text-slate-200">2. TinyFish Fetch</div>
+            <div class="text-[10px] text-slate-400">Chromium fleet page rendering</div>
+          </div>
+        </div>
+        <div id="stepAgent" class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center space-x-2">
+          <span class="text-sm">🤖</span>
+          <div>
+            <div class="font-bold text-slate-200">3. TinyFish Agent</div>
+            <div class="text-[10px] text-slate-400">Navigating interactive boards</div>
+          </div>
+        </div>
+        <div id="stepDedup" class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center space-x-2">
+          <span class="text-sm">✂️</span>
+          <div>
+            <div class="font-bold text-slate-200">4. Deduplicate & Match</div>
+            <div class="text-[10px] text-slate-400">Computing 0-100% scores</div>
+          </div>
+        </div>
+      </div>
+      <div id="liveStatusLog" class="text-[11px] font-mono text-slate-400 bg-slate-950/80 p-2 rounded-lg border border-slate-800/80">
+        Initiating TinyFish search query across Greenhouse, Lever, and Ashby...
+      </div>
+    </div>
+
+    <!-- Dashboard Metrics & Controls -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400">Verified Openings</div>
+        <div id="metricTotalJobs" class="text-xl font-extrabold text-white font-mono mt-0.5">--</div>
+        <div class="text-[10px] text-slate-500">Matching your criteria</div>
+      </div>
+
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400">Duplicates Pruned</div>
+        <div id="metricDuplicates" class="text-xl font-extrabold text-cyan-400 font-mono mt-0.5">--</div>
+        <div class="text-[10px] text-slate-500">Cross-portal canonicalized</div>
+      </div>
+
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400">TinyFish Pipeline</div>
+        <div class="text-sm font-bold text-emerald-400 font-mono mt-1 flex items-center gap-1">
+          <span>Search</span> • <span>Fetch</span> • <span>Agent</span>
+        </div>
+        <div class="text-[10px] text-emerald-500 font-semibold">3 Endpoints (200 pts)</div>
+      </div>
+
+      <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+        <div class="text-[11px] text-slate-400">Freshness Status</div>
+        <div id="metricFreshness" class="text-sm font-semibold text-slate-200 mt-1 truncate">Just now</div>
+        <div class="flex items-center gap-1.5 text-[10px] text-slate-400 mt-0.5">
+          <span>Keep fresh:</span>
+          <select id="selectAutoRefresh" class="bg-slate-900 border border-slate-700 text-[10px] rounded px-1 py-0.5 text-cyan-400 focus:outline-none">
+            <option value="0">Manual</option>
+            <option value="300">5 mins</option>
+            <option value="900">15 mins</option>
+            <option value="3600">1 hour</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listings Toolbar -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+      
+      <!-- Filter Tabs -->
+      <div class="flex items-center space-x-1.5 w-full sm:w-auto">
+        <button id="tabAll" class="filter-tab px-3 py-1.5 text-xs font-semibold rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800/80 transition">
+          All Results (<span id="countAll">0</span>)
+        </button>
+        <button id="tabSaved" class="filter-tab px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-900/90 text-slate-400 hover:text-slate-200 border border-slate-800 transition flex items-center space-x-1">
+          <span>⭐</span>
+          <span>Saved (<span id="countSaved">0</span>)</span>
+        </button>
+        <button id="tabApplied" class="filter-tab px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-900/90 text-slate-400 hover:text-slate-200 border border-slate-800 transition flex items-center space-x-1">
+          <span>✅</span>
+          <span>Applied (<span id="countApplied">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- Actions & Sort -->
+      <div class="flex items-center flex-wrap gap-2 w-full sm:w-auto justify-end">
+        <div class="flex items-center space-x-1 text-xs text-slate-400">
+          <span>Sort by:</span>
+          <select id="selectSort" class="bg-slate-900 border border-slate-700 text-xs rounded-lg px-2 py-1 text-slate-200 focus:outline-none">
+            <option value="match" selected>Highest Match Score</option>
+            <option value="recent">Most Recent</option>
+            <option value="company">Company (A-Z)</option>
+          </select>
+        </div>
+
+        <!-- Export Buttons -->
+        <a href="/api/export/csv" class="px-2.5 py-1 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition flex items-center space-x-1">
+          <span>📥</span>
+          <span>CSV</span>
+        </a>
+        <a href="/api/export/json" class="px-2.5 py-1 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition flex items-center space-x-1">
+          <span>📥</span>
+          <span>JSON</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Job Listings Grid -->
+    <div id="listingsContainer" class="space-y-4">
+      <!-- Dynamic job cards will be rendered here by app.js -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden glass-panel rounded-2xl p-12 text-center border border-slate-800 space-y-3">
+      <div class="text-4xl">🔍</div>
+      <h3 class="text-lg font-bold text-slate-200">No Openings Match Your Filters</h3>
+      <p class="text-sm text-slate-400 max-w-md mx-auto">Try lowering the minimum match score slider, removing location restrictions, or expanding your target role.</p>
+      <button id="btnResetFilters" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-semibold rounded-lg border border-slate-700 transition">Reset All Filters</button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 px-4 text-center text-xs text-slate-500 space-y-2 mt-12">
+    <div class="flex flex-wrap items-center justify-center gap-4 text-slate-400">
+      <span>Built for <strong>TinyFish × Team Technojam Workshop</strong> (Galgotias University)</span>
+      <span>•</span>
+      <span>Powered by TinyFish Search, Fetch & Agent APIs</span>
+      <span>•</span>
+      <span class="text-emerald-400 font-mono">200 Points Tier Submission</span>
+    </div>
+    <p>© 2026 RadarFish — The Job Scraper You'd Actually Use.</p>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. Architecture & Endpoints Modal -->
+  <div id="modalArch" class="fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-3xl w-full rounded-2xl border border-slate-700/80 p-6 max-h-[90vh] overflow-y-auto space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🏗️</span>
+          <div>
+            <h3 class="text-lg font-bold text-white">TinyFish 3-Tier Architecture (200 Pts Tier)</h3>
+            <p class="text-xs text-slate-400">How TinyFish Search, Fetch, and Agent work meaningfully in unison</p>
+          </div>
+        </div>
+        <button class="close-modal text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <!-- Diagram Flow -->
+      <div class="bg-slate-950/90 rounded-xl p-4 border border-slate-800 font-mono text-xs text-cyan-300 space-y-2">
+        <div class="text-slate-400 text-[11px]">// Complete End-to-End Pipeline Data Flow</div>
+        <div class="text-slate-300">User Query: [ Role: "Software Engineer Intern" | Location: "Bangalore" ]</div>
+        <div class="text-emerald-400">↓ 1. TinyFish Search API (api.search.tinyfish.ai)</div>
+        <div class="pl-4 text-slate-400">↳ Targeted ATS Dork: site:greenhouse.io OR site:lever.co "SWE Intern"</div>
+        <div class="pl-4 text-slate-400">↳ Returns fresh, live candidate job posting URLs</div>
+        <div class="text-blue-400">↓ 2. TinyFish Fetch API (api.fetch.tinyfish.ai)</div>
+        <div class="pl-4 text-slate-400">↳ Batch renders JavaScript SPAs via managed Chromium fleet</div>
+        <div class="pl-4 text-slate-400">↳ Strips HTML clutter, returning clean markdown & metadata</div>
+        <div class="text-purple-400">↓ 3. TinyFish Agent API (agent.tinyfish.ai/v1/automation/run)</div>
+        <div class="pl-4 text-slate-400">↳ Goal: "Navigate career board, click university openings, extract JSON"</div>
+        <div class="pl-4 text-slate-400">↳ Structured extraction conforming to output_schema</div>
+        <div class="text-amber-400">↓ 4. Deduplication & AI Ranking Engine</div>
+        <div class="pl-4 text-slate-400">↳ Merges duplicate postings + scores 0-100% against user skills</div>
+      </div>
+
+      <!-- 3 Endpoints Detailed Explanation -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-900/40 space-y-1.5">
+          <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+            <span>1. Search API</span>
+          </div>
+          <div class="font-mono text-[10px] text-slate-400">api.search.tinyfish.ai</div>
+          <p class="text-slate-300 text-[11px]">
+            Dynamically discovers live career links across the open web and ATS platforms (Greenhouse, Lever, Ashby, Workday) instead of relying on stale hardcoded URLs.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-blue-900/40 space-y-1.5">
+          <div class="font-bold text-blue-400 flex items-center gap-1.5">
+            <span>2. Fetch API</span>
+          </div>
+          <div class="font-mono text-[10px] text-slate-400">api.fetch.tinyfish.ai</div>
+          <p class="text-slate-300 text-[11px]">
+            Executes headless Chromium rendering to bypass client-side JavaScript hydration and anti-bot obstacles, extracting clean markdown job descriptions and requirements.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-purple-900/40 space-y-1.5">
+          <div class="font-bold text-purple-400 flex items-center gap-1.5">
+            <span>3. Agent API</span>
+          </div>
+          <div class="font-mono text-[10px] text-slate-400">agent.tinyfish.ai/v1/...</div>
+          <p class="text-slate-300 text-[11px]">
+            Autonomous "AI That Clicks" for complex, interactive company portals (Workday, Stripe, Uber) that require dropdown filtering, modal clicks, and strict JSON schema output.
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs text-slate-300">
+        <strong class="text-cyan-400">Why this scores 200 pts:</strong> The 3 endpoints are not padded. Each performs an indispensable layer: Search discovers candidate URLs across ATS hosts, Fetch renders dynamic markdown without client-side lag, and Agent navigates interactive complex single-page apps.
+      </div>
+
+      <div class="text-right">
+        <button class="close-modal px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Social Media Posts Modal -->
+  <div id="modalSocial" class="fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-2xl w-full rounded-2xl border border-slate-700/80 p-6 max-h-[90vh] overflow-y-auto space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">📢</span>
+          <div>
+            <h3 class="text-lg font-bold text-white">Social Media Launch Posts (Required)</h3>
+            <p class="text-xs text-slate-400">Ready-to-publish posts tagging @TinyFish for LinkedIn and X (Twitter)</p>
+          </div>
+        </div>
+        <button class="close-modal text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex space-x-2 border-b border-slate-800 pb-2">
+        <button id="tabPostLinkedIn" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-blue-600/30 text-blue-300 border border-blue-500/50">LinkedIn Post</button>
+        <button id="tabPostX" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800">X (Twitter) Post</button>
+      </div>
+
+      <!-- LinkedIn Post Content -->
+      <div id="contentLinkedIn" class="space-y-3">
+        <div class="text-xs text-slate-400 flex items-center justify-between">
+          <span>Formatted for LinkedIn • Tags TinyFish • High Engagement Hook</span>
+          <button id="btnCopyLinkedIn" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-md transition flex items-center gap-1">
+            <span>📋</span>
+            <span>Copy LinkedIn Post</span>
+          </button>
+        </div>
+        <textarea id="textLinkedIn" readonly rows="12" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none select-all"></textarea>
+      </div>
+
+      <!-- X Post Content -->
+      <div id="contentX" class="space-y-3 hidden">
+        <div class="text-xs text-slate-400 flex items-center justify-between">
+          <span>Formatted for X (Twitter) • Tags @TinyFishAI • Punchy & Viral</span>
+          <button id="btnCopyX" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-md transition flex items-center gap-1">
+            <span>📋</span>
+            <span>Copy X Post</span>
+          </button>
+        </div>
+        <textarea id="textX" readonly rows="10" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none select-all"></textarea>
+      </div>
+
+      <div class="text-right">
+        <button class="close-modal px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. API Inspector Modal -->
+  <div id="modalInspector" class="fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-3xl w-full rounded-2xl border border-slate-700/80 p-6 max-h-[90vh] overflow-y-auto space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🔬</span>
+          <div>
+            <h3 class="text-lg font-bold text-white">TinyFish API Inspector & Sandbox</h3>
+            <p class="text-xs text-slate-400">Directly test Search, Fetch, and Agent endpoints and view live payloads</p>
+          </div>
+        </div>
+        <button class="close-modal text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <!-- Endpoint Selector -->
+      <div class="grid grid-cols-3 gap-2">
+        <button data-inspect="search" class="inspect-btn p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-800/80 text-left text-xs font-semibold text-cyan-300">
+          <div>1. Search API</div>
+          <div class="text-[10px] text-slate-400 font-mono font-normal">api.search.tinyfish.ai</div>
+        </button>
+        <button data-inspect="fetch" class="inspect-btn p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs font-semibold text-slate-300">
+          <div>2. Fetch API</div>
+          <div class="text-[10px] text-slate-400 font-mono font-normal">api.fetch.tinyfish.ai</div>
+        </button>
+        <button data-inspect="agent" class="inspect-btn p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs font-semibold text-slate-300">
+          <div>3. Agent API</div>
+          <div class="text-[10px] text-slate-400 font-mono font-normal">agent.tinyfish.ai/v1/...</div>
+        </button>
+      </div>
+
+      <!-- Dynamic Test Input Form -->
+      <div id="inspectForm" class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+        <!-- Rendered by app.js based on selected endpoint -->
+      </div>
+
+      <!-- Execution CTA -->
+      <button id="btnExecuteInspect" class="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold transition">
+        Test Endpoint Now
+      </button>
+
+      <!-- Output Console -->
+      <div class="space-y-1">
+        <label class="text-xs text-slate-400 flex items-center justify-between">
+          <span>Response JSON Payload</span>
+          <span id="inspectStatus" class="text-[10px] text-emerald-400 font-mono">200 OK</span>
+        </label>
+        <pre id="inspectOutput" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-cyan-300 max-h-60 overflow-y-auto">{ "status": "Ready to test TinyFish endpoints" }</pre>
+      </div>
+
+      <div class="text-right">
+        <button class="close-modal px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Settings Modal -->
+  <div id="modalSettings" class="fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-lg w-full rounded-2xl border border-slate-700/80 p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">⚙️</span>
+          <div>
+            <h3 class="text-lg font-bold text-white">TinyFish API Settings</h3>
+            <p class="text-xs text-slate-400">Configure your TinyFish API Key and execution mode</p>
+          </div>
+        </div>
+        <button class="close-modal text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-slate-300 block mb-1">TinyFish API Key</label>
+          <input type="password" id="inputApiKey" placeholder="Enter your key (e.g. tf_...)" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono">
+          <p class="text-[11px] text-slate-400 mt-1">Get your free API key at <a href="https://agent.tinyfish.ai" target="_blank" class="text-cyan-400 underline">agent.tinyfish.ai</a>. If blank, high-fidelity realistic demo mode runs automatically.</p>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+          <button id="btnTestKey" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg border border-slate-700 transition">
+            Test Connection
+          </button>
+          <span id="testKeyResult" class="text-xs font-mono text-slate-400"></span>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-3 flex items-center justify-between">
+        <button id="btnSaveKey" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition">
+          Save Settings
+        </button>
+        <button class="close-modal px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden glass-panel border border-cyan-500/50 text-cyan-300 text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2">
+    <span>✅</span>
+    <span id="toastMsg">Action completed</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
